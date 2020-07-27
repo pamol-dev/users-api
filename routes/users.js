@@ -1,9 +1,25 @@
 var express = require('express');
+const User = require('../model/user');
 var router = express.Router();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  
+  User.find({})
+  .exec((err, data)=>{
+    if (err){
+      return res.json({
+        status: 200,
+        mensaje: 'Error en la peticion'
+      })
+    }
+
+    res.json({
+      status: 200,
+      data
+    })
+
+  });
 });
 
 /* ADD user */
