@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
   .exec((err, data)=>{
     if (err){
       return res.json({
-        status: 200,
+        status: 500,
         mensaje: 'Error en la peticion'
       })
     }
@@ -24,7 +24,32 @@ router.get('/', function(req, res, next) {
 
 /* ADD user */
 router.post('/', function (req, res) {
-  res.send('Got a POST request');
+  let body = req.body;
+
+  let user = new User({
+    name:body.name,
+    lastName: body.lastName,
+    age:body.age,
+    birthDate:body.birthDate
+  })
+
+  user.save((err, data) => {
+    if (err){
+      return res.json({
+        status: 400,
+        mensaje: 'Error al crear usuario',
+        err
+      })
+    }
+
+    res.json({
+      status: 200,
+      data,
+      mensaje: "Usuario creado"
+    })
+
+})
+
 });
 
 /* UPDATE user */
